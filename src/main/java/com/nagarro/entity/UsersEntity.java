@@ -11,30 +11,34 @@ import main.java.com.nagarro.util.HibernateUtil;
 import java.util.List;
 
 @Entity
-@Table(name = "users", schema = "demo", catalog = "")
+@Table(name = "users")
 public class UsersEntity {
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String password;
-    
-    @OneToMany(mappedBy="users", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    List<ImagesEntity> imageList;
-    
-    @Id
+	@Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    private Integer userId;
+	
+	@Column(name = "first_name", nullable = true, length = 20)
+    private String firstName;
+	 
+	@Column(name = "last_name", nullable = true, length = 20) 
+    private String lastName;
+	    
+	@Column(name = "username", nullable = true, length = 250)
+    private String username;
+	    
+	@Column(name = "password", nullable = true, length = 250)
+    private String password;
+    
+    @OneToMany(mappedBy="users")
+    List<ImagesEntity> imageList;
+    
+    
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "first_name", nullable = true, length = 20)
+   
     public String getFirstName() {
         return firstName;
     }
@@ -43,8 +47,7 @@ public class UsersEntity {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "last_name", nullable = true, length = 20)
+  
     public String getLastName() {
         return lastName;
     }
@@ -53,8 +56,7 @@ public class UsersEntity {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "username", nullable = true, length = 250)
+     
     public String getUsername() {
         return username;
     }
@@ -63,8 +65,7 @@ public class UsersEntity {
         this.username = username;
     }
 
-    @Basic
-    @Column(name = "password", nullable = true, length = 250)
+   
     public String getPassword() {
         return password;
     }
@@ -89,7 +90,7 @@ public class UsersEntity {
 
         UsersEntity that = (UsersEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         if (username != null ? !username.equals(that.username) : that.username != null) return false;
@@ -100,7 +101,7 @@ public class UsersEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = userId != null ? userId.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);

@@ -6,45 +6,46 @@ import java.io.File;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "images", schema = "demo")
+@Table(name = "images")
 public class ImagesEntity {
-    private Integer id;
-    private byte[] image;
+	@Id
+	@Column(name = "id", nullable = false)
+	@GeneratedValue
+    private Integer imageId;
+	
+	@Column(name = "image", nullable = false)
+    private String image;
+	
+	@Column(name = "name", nullable = false, length = 200)
     private String name;
+	
+	@Column(name = "size", nullable = false)
     private Integer size;
 
-    @Id
-    @Column(name = "id", nullable = false)
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    
     @Transient
     File file;
     
+    @ManyToOne
+    @JoinColumn(name="userId")
+    UsersEntity user;
+    
+     
+    public Integer getImageId() {
+        return imageId;
+    }
+
     public File getFile() {
     	return file;
     }
     
-    @ManyToOne
-    UsersEntity user;
-    
-    @Basic
-    @Column(name = "image", nullable = false)
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    @Basic
-    @Column(name = "name", nullable = false, length = 200)
     public String getName() {
         return name;
     }
@@ -53,8 +54,7 @@ public class ImagesEntity {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "size", nullable = false)
+     
     public Integer getSize() {
         return size;
     }
@@ -84,8 +84,8 @@ public class ImagesEntity {
 
         ImagesEntity that = (ImagesEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (!Arrays.equals(image, that.image)) return false;
+        if (imageId != null ? !imageId.equals(that.imageId) : that.imageId != null) return false;
+        if (image != null ? !image.equals(that.image) : that.image != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (size != null ? !size.equals(that.size) : that.size != null) return false;
 
@@ -94,8 +94,8 @@ public class ImagesEntity {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + Arrays.hashCode(image);
+        int result = imageId != null ? imageId.hashCode() : 0;
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (size != null ? size.hashCode() : 0);
         return result;

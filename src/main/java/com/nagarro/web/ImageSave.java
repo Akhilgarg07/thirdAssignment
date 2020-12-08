@@ -63,7 +63,7 @@ public class ImageSave extends HttpServlet {
 		
 		ImagesEntity image = new ImagesEntity();
 		image.setImg(new File(filePath));
-		image.setImage(imgFile);
+		//image.setImage(imgFile);
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
