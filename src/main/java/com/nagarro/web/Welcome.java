@@ -18,7 +18,7 @@ public class Welcome extends HttpServlet {
         if(cookies!=null){
             for(Cookie cookie: cookies){
                 if(cookie.getName().equals("username")){
-                    response.sendRedirect("ImageUtility");
+                    response.sendRedirect("imgUpload.html");
                 }
             }
         }

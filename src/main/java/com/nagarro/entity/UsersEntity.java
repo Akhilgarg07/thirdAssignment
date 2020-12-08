@@ -2,6 +2,14 @@ package main.java.com.nagarro.entity;
 
 import javax.persistence.*;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import main.java.com.nagarro.util.HibernateUtil;
+
+import java.util.List;
+
 @Entity
 @Table(name = "users", schema = "demo", catalog = "")
 public class UsersEntity {
@@ -10,7 +18,10 @@ public class UsersEntity {
     private String lastName;
     private String username;
     private String password;
-
+    
+    @OneToMany(mappedBy="users", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    List<ImagesEntity> imageList;
+    
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -62,6 +73,32 @@ public class UsersEntity {
         this.password = password;
     }
 
+    public List<ImagesEntity> getImageList() {
+		return imageList;
+	}
+
+	public void setImageList(List<ImagesEntity> imageList) {
+		this.imageList = imageList;
+	}
+    
+	public static List<ImagesEntity> getImagesList(String name){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = null;
+		tx = session.beginTransaction();
+		Query query = session.createQuery("from users where username = :param");
+		query.setParameter("param", name);
+		UsersEntity u = (UsersEntity) query.uniqueResult();
+		List<ImagesEntity> li;
+		try {
+			li = u.getImageList();
+		} catch(Exception e) {
+			li = null;
+		}
+		tx.commit();
+		session.close();
+		return li;
+	}
+	
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
