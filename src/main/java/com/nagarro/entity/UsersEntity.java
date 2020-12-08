@@ -81,23 +81,6 @@ public class UsersEntity {
 		this.imageList = imageList;
 	}
     
-	public static List<ImagesEntity> getImagesList(String name){
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = null;
-		tx = session.beginTransaction();
-		Query query = session.createQuery("from users where username = :param");
-		query.setParameter("param", name);
-		UsersEntity u = (UsersEntity) query.uniqueResult();
-		List<ImagesEntity> li;
-		try {
-			li = u.getImageList();
-		} catch(Exception e) {
-			li = null;
-		}
-		tx.commit();
-		session.close();
-		return li;
-	}
 	
     @Override
     public boolean equals(Object o) {

@@ -1,6 +1,7 @@
 package main.java.com.nagarro.web;
 
 import java.io.IOException;
+import javax.servlet.annotation.WebServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,7 @@ import main.java.com.nagarro.util.HibernateUtil;
 import main.java.com.nagarro.entity.ImagesEntity;
 import main.java.com.nagarro.entity.UsersEntity;
 
+@WebServlet("/ImageDelete")
 public class ImageDelete extends HttpServlet{
 	private static final long serialVersionUID = 1L;
     
