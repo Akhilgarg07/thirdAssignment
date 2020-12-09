@@ -28,7 +28,10 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <div>
-       <br> <h4>New User <a href="register.jsp">Register</a></h4>
+       <br> <h4>New User</h4>
+       <form action="Register">
+       		<button type="submit" class="btn btn-primary">Register</button>
+       	</form>
     </div>
 </div>
 </body>
