@@ -20,6 +20,8 @@ public class ImageEdit extends HttpServlet {
        
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id=(int) request.getAttribute("osheen");
+		//request.setAttribute(name, o);
 		response.sendRedirect("./ImageEdit.jsp");
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

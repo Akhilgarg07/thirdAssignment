@@ -45,9 +45,11 @@ legend {
 <body>
 <div id ="overlay"></div>
 <form  method="post" action="ImageEdit" >
+<input type="hidden" name=""
 <fieldset>
 <legend >Change Image Name</legend>
 <label>Enter Name :  <Input name="name" required></label><br><br>
+
 <input type="submit">
 </fieldset>
 </form>
