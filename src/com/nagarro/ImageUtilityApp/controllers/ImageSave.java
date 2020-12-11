@@ -88,7 +88,9 @@ public class ImageSave extends HttpServlet {
 		}
 		session.close();
 		response.getWriter().print("");
-		response.sendRedirect("ImageUtility.jsp");
+		request.setAttribute("li", user.getImageList());
+		request.setAttribute("username", username);
+		request.getRequestDispatcher("ImageUtility.jsp").forward(request, response);
 		
 	}
 	

@@ -101,12 +101,13 @@ legend {
 					pageContext.setAttribute("id", id);
 					pageContext.setAttribute("name", name);
 					pageContext.setAttribute("size", size);
+					pageContext.setAttribute("preview", preview);
 			%>
 			<tr>
 				<td>${id}</td>
 				<td class='ImgName'>${name}</td>
 				<td>${size}</td>
-				<td><img width='150px' height='150px' src='" + preview + "'></td>
+				<td><img width='150px' height='150px' src=${preview}></td>
 				<td><form action="ImageEdit" method="get"><input type="hidden" name="id" value=${id} /><input type="submit" value="Edit"/></form></td>
 				<td><form action="ImageDelete" method="post"><input type="hidden" name="imageId" value=${id} /><input type="submit" value="Delete" /></form></td>
 			</tr>

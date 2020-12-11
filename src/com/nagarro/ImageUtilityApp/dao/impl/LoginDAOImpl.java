@@ -19,7 +19,6 @@ public class LoginDAOImpl implements LoginDAO {
 		session.getTransaction();
 		session.close();
 		return user;
-
 	}
 
 }
