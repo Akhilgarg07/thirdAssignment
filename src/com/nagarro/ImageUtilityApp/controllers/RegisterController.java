@@ -53,7 +53,9 @@ public class RegisterController extends HttpServlet {
 //        session.flush();
         session.close();
         response.getWriter().print("Registered Successfully");
-        response.addCookie(new Cookie("username",username));
+        Cookie c = new Cookie("username",username);
+        c.setMaxAge(18000);
+        response.addCookie(c);
         response.addCookie(new Cookie("password",password));
         response.sendRedirect("login.jsp");
 

@@ -63,13 +63,13 @@ public class ImageSave extends HttpServlet {
 		image.setName(fileName);
 		image.setSize((int) (part.getSize()/1000));
 		image.setImagPath(filePath);
-//		System.out.println(fileName);
-//		System.out.println(filePath);
-//		System.out.println((int)part.getSize());
+		System.out.println(fileName);
+		System.out.println(filePath);
+		System.out.println((int)part.getSize());
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-//		System.out.println(username);
+		System.out.println(username);
 		Query query = session.createQuery("from Users where username=:username");
 		query.setParameter("username", username);
 		
@@ -88,12 +88,12 @@ public class ImageSave extends HttpServlet {
 		}
 		session.close();
 		response.getWriter().print("");
-		response.sendRedirect("imgUpload.html");
+		response.sendRedirect("ImageUtility.jsp");
 		
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("imgUpload.html");
+		response.sendRedirect("ImageUtility.jsp");
 	}
 
 	

@@ -61,12 +61,10 @@ legend {
 
 
 	<div>
-		<form method="post" action="ImageSave" enctype="multipart/form-data"
-			id="imgSaveForm">
-			<input type="file" name="imgFile" style="margin-right: 400px"
-				accept="image/*" required /> <input type="submit"
-				style="margin-right: 5px"> <input type="reset">
-		</form>
+		<form action="ImageSave" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" />
+    </form>
 	</div>
 
 	<div>
