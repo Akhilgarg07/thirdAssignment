@@ -73,11 +73,12 @@ legend {
 		<h2 style="margin-top: 40px">Uploaded Images</h2>
 		<table style="width: 100%">
 			<tr>
-				<th>S.NO</th>
+				<th>S.No</th>
 				<th>Name</th>
 				<th>Size</th>
 				<th>Preview</th>
-				<th>Action</th>
+				<th>Edit</th>
+				<th>Delete</th>
 			</tr>
 			<%
 				List<Images> li = (List) request.getAttribute("li");
@@ -92,20 +93,24 @@ legend {
 				SAVE_DIR = "Images";
 
 				FileOutputStream fos;
-				action = "<a href='http://localhost:8080/Demo/ImageDelete'><img src= 'Images/cross_48.png '></a> <a href='http://localhost:8080/Demo/ImageEdit'> <img src= 'Images/pen-checkbox-64.png' > </a>";
+// 				action = "<a href='http://localhost:8080/Demo/ImageDelete'><img src= 'Images/cross_48.png '></a> <a href='http://localhost:8080/Demo/ImageEdit'> <img src= 'Images/pen-checkbox-64.png' > </a>";
 				for (Images i : li) {
 					id = i.getId() + "";
 					name = i.getName();
 					size = i.getSize() + " kb";
 					preview = i.getImagePath();
+					System.out.println(id+" "+name+" "+size);
+					pageContext.setAttribute("id", id);
+					pageContext.setAttribute("name", name);
+					pageContext.setAttribute("size", size);
 			%>
 			<tr>
 				<td>${id}</td>
-				<td class='ImgName'>name</td>
-				<td>size</td>
+				<td class='ImgName'>${name}</td>
+				<td>${size}</td>
 				<td><img width='150px' height='150px' src='" + preview + "'></td>
-				<td><form action="ImageEdit"><input type="hidden" value="${i.getId} name="osheen"/><input type="submit"/></form></td>
-				<td>action</td>
+				<td><form action="ImageEdit" method="get"><input type="hidden" name="id" value=${id} /><input type="submit" value="Edit"/></form></td>
+				<td><form action="ImageDelete"><input type="hidden" name="imageId" value=${id} /><input type="submit" value="Delete" /></form></td>
 			</tr>
 			<%
 				}

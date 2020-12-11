@@ -39,15 +39,19 @@ display:none ;
 legend {
      margin: auto;
 }
+<%
+				int imageId = (int) request.getAttribute("imageId");
+pageContext.setAttribute("imageId", imageId);
+			%>
 
 </style>
 </head>
 <body>
 <div id ="overlay"></div>
 <form  method="post" action="ImageEdit" >
-<input type="hidden" name=""
 <fieldset>
 <legend >Change Image Name</legend>
+<input type="hidden" name="imageId" value=${imageId} />
 <label>Enter Name :  <Input name="name" required></label><br><br>
 
 <input type="submit">

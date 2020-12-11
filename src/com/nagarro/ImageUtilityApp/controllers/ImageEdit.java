@@ -20,14 +20,17 @@ public class ImageEdit extends HttpServlet {
        
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int id=(int) request.getAttribute("osheen");
+		String id1= request.getParameter("id");
+		int id = Integer.parseInt(id1);
+		System.out.println(id);
 		//request.setAttribute(name, o);
-		response.sendRedirect("./ImageEdit.jsp");
+		request.setAttribute("imageId", id);
+		request.getRequestDispatcher("ImageEdit.jsp").forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String str = request.getParameter("imageId");
-		int imageId  =  Integer.parseInt(str) ;
-		str = request.getParameter("name");
+		String id=  request.getParameter("imageId");
+		int imageId  =  Integer.parseInt(id) ;
+		String str = request.getParameter("name");
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Images img = (Images) session.get(Images.class, imageId);
