@@ -34,6 +34,6 @@ public class ImageDelete extends HttpServlet{
 		session.getTransaction().commit();
 		session.close();
 		response.getWriter().print("Deletion sucessful");
-		response.sendRedirect("ImageUtility");
+		response.sendRedirect("ImageUtility.jsp");
 	}
 }
