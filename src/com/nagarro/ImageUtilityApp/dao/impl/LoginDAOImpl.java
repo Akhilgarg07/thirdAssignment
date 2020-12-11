@@ -20,5 +20,16 @@ public class LoginDAOImpl implements LoginDAO {
 		session.close();
 		return user;
 	}
+	
+	public Users getUser(String username) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from Users U where U.username=:username");
+		query.setParameter("username", username);
+		Users user = (Users) query.uniqueResult();
+		session.getTransaction();
+		session.close();
+		return user;
+	}
 
 }

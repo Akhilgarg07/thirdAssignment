@@ -1,19 +1,17 @@
 package com.nagarro.ImageUtilityApp.controllers;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-
-import com.nagarro.ImageUtilityApp.entity.Users;
-import com.nagarro.ImageUtilityApp.service.impl.LoginServiceImpl;
-import com.nagarro.ImageUtilityApp.util.HibernateUtil;
-
-import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.nagarro.ImageUtilityApp.constants.Constants;
+import com.nagarro.ImageUtilityApp.entity.Users;
+import com.nagarro.ImageUtilityApp.service.impl.LoginServiceImpl;
 
 @WebServlet("/Login")
 public class LoginController extends HttpServlet {
@@ -23,32 +21,29 @@ public class LoginController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("check2");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		Users user=new LoginServiceImpl().checkUserCredentials(username,password);
-		
-		if (user == null) {
-			response.getWriter().print("No users found");
+		Users user = new LoginServiceImpl().checkUserCredentials(username, password);
+
+		if (null == user) {
+			request.setAttribute("errorMessage", "No users found");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} else if (user.getPassword().equals(password)) {
-			request.setAttribute("li", user.getImageList());
-			request.setAttribute("username", username);
-			request.getRequestDispatcher("ImageUtility.jsp").forward(request, response);
+			request.setAttribute("imageList", user.getImageList());
 			response.addCookie(new Cookie("username", username));
 			response.addCookie(new Cookie("password", password));
+			request.getRequestDispatcher(Constants.imageUtility).forward(request, response);
 		} else {
-			response.getWriter().print("Invalid password");
+			request.setAttribute("errorMessage", "Invalid password");
+			request.getRequestDispatcher(Constants.login).forward(request, response);
 		}
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.sendRedirect("./login.jsp");
+		response.sendRedirect(Constants.login);
 	}
 
 }
-
-//imagesList
-//jstl

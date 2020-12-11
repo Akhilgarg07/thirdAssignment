@@ -2,6 +2,7 @@ package com.nagarro.ImageUtilityApp.controllers;
 import javax.servlet.annotation.WebServlet;
 import org.hibernate.Transaction;
 
+import com.nagarro.ImageUtilityApp.constants.Constants;
 import com.nagarro.ImageUtilityApp.entity.Users;
 import com.nagarro.ImageUtilityApp.util.HibernateUtil;
 
@@ -23,7 +24,6 @@ public class RegisterController extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-//        System.out.println("check1");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String username = request.getParameter("username");
@@ -42,27 +42,26 @@ public class RegisterController extends HttpServlet {
             session.persist(user);
             session.flush();
             tx.commit();
-//            session.getTransaction().commit();
         }catch (Exception e){
             response.getWriter().println("User could not be saved");
             response.getWriter().println(e);
             session.getTransaction().rollback();
             session.close();
             return;
-        }
-//        session.flush();
+        }finally {
         session.close();
+        }
         response.getWriter().print("Registered Successfully");
         Cookie c = new Cookie("username",username);
-        c.setMaxAge(18000);
+        c.setMaxAge(Constants.cookieLifeTime);
         response.addCookie(c);
         response.addCookie(new Cookie("password",password));
-        response.sendRedirect("login.jsp");
+        response.sendRedirect(Constants.login);
 
     }
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        response.sendRedirect("register.jsp");
+        response.sendRedirect(Constants.register);
     }
 }

@@ -13,58 +13,51 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.nagarro.ImageUtilityApp.constants.Constants;
+import com.nagarro.ImageUtilityApp.dao.impl.LoginDAOImpl;
 import com.nagarro.ImageUtilityApp.entity.Images;
 import com.nagarro.ImageUtilityApp.entity.Users;
+import com.nagarro.ImageUtilityApp.service.CookieService;
 import com.nagarro.ImageUtilityApp.util.HibernateUtil;
 
 @WebServlet("/ImageEdit")
-public class ImageEdit extends HttpServlet {
+public class ImageEditController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String id1 = request.getParameter("id");
-		int id = Integer.parseInt(id1);
-		System.out.println(id);
-		// request.setAttribute(name, o);
+		int id = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute("imageId", id);
-		request.getRequestDispatcher("ImageEdit.jsp").forward(request, response);
+		request.getRequestDispatcher(Constants.imageEdit).forward(request, response);
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String id = request.getParameter("imageId");
-		int imageId = Integer.parseInt(id);
-		String str = request.getParameter("name");
+		int imageId = Integer.parseInt(request.getParameter("imageId"));
+		String imageName = request.getParameter("imageName");
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Images img = (Images) session.get(Images.class, imageId);
-		img.setName(str);
+		img.setName(imageName);
 		try {
 			session.update(img);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
-			session.close();
 			PrintWriter out = response.getWriter();
 			out.print("error");
-			return;
+		}finally {
+			session.close();
 		}
-		Cookie[] cookies = request.getCookies();
-		String username = null;
-		if (cookies != null) {
-			for (Cookie c : cookies) {
-				if (c.getName().equals("username")) {
-					username = c.getValue();
-				}
-			}
-		}
-		Query query = session.createQuery("from Users where username=:username");
-		query.setParameter("username", username);
-		Users user = (Users) query.uniqueResult();
-		request.setAttribute("li", user.getImageList());
-		request.setAttribute("username", username);
-		request.getRequestDispatcher("ImageUtility.jsp").forward(request, response);
-		session.close();
+		String username = CookieService.getCookieUsername(request);
+		
+		Users user = new LoginDAOImpl().getUser(username);
+		
+		request.setAttribute(Constants.imageList, user.getImageList());
+		request.setAttribute(Constants.username, username);
+		request.getRequestDispatcher(Constants.imageUtility).forward(request, response);
+		
 	}
 }

@@ -21,17 +21,12 @@ public class Images {
 	@GeneratedValue
 	private Integer imageId;
 
-	//@Column(name = "image", nullable = false)
 	private String imagePath;
 
-	//@Column(name = "name", nullable = false, length = 200)
 	private String name;
 
-	//@Column(name = "size", nullable = false)
 	private Integer size;
 
-//	@Transient
-//	File file;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="userId")
@@ -41,9 +36,6 @@ public class Images {
 		return imageId;
 	}
 
-//	public File getFile() {
-//		return file;
-//	}
 
 	public String getImagePath() {
 		return imagePath;
@@ -78,7 +70,6 @@ public class Images {
 	}
 
 	public void setImg(File file) {
-		// this.file = file;
 		this.size = (int) file.length();
 		this.name = file.getName();
 	}

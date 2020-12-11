@@ -52,7 +52,7 @@ pageContext.setAttribute("imageId", imageId);
 <fieldset>
 <legend >Change Image Name</legend>
 <input type="hidden" name="imageId" value=${imageId} />
-<label>Enter Name :  <Input name="name" required></label><br><br>
+<label>Enter Name :  <Input name="imageName" required></label><br><br>
 
 <input type="submit">
 </fieldset>

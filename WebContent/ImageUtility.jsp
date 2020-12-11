@@ -62,9 +62,8 @@ legend {
 
 	<div>
 		<form action="ImageSave" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <input type="submit" />
-    </form>
+			<input type="file" name="file" /> <input type="submit" />
+		</form>
 	</div>
 
 	<div>
@@ -79,37 +78,43 @@ legend {
 				<th>Delete</th>
 			</tr>
 			<%
-				List<Images> li = (List) request.getAttribute("li");
-			String username = (String) request.getAttribute("username");
+			List<Images> imageList = (List) request.getAttribute("imageList");
 
-			if (li == null) {
+			if (imageList == null) {
 				out.println("<h2>No images found for this user</h2>");
 			} else {
 				String id, name, size, preview, action, imgPath;
+				int total = 0;
 
 				String SAVE_DIR, appPath, savePath, filePath;
 				SAVE_DIR = "Images";
 
 				FileOutputStream fos;
-// 				action = "<a href='http://localhost:8080/Demo/ImageDelete'><img src= 'Images/cross_48.png '></a> <a href='http://localhost:8080/Demo/ImageEdit'> <img src= 'Images/pen-checkbox-64.png' > </a>";
-				for (Images i : li) {
+				for (Images i : imageList) {
 					id = i.getId() + "";
 					name = i.getName();
 					size = i.getSize() + " kb";
 					preview = i.getImagePath();
-					System.out.println(id+" "+name+" "+size);
+					total += i.getSize();
 					pageContext.setAttribute("id", id);
 					pageContext.setAttribute("name", name);
 					pageContext.setAttribute("size", size);
 					pageContext.setAttribute("preview", preview);
+					pageContext.setAttribute("total", total);
 			%>
 			<tr>
 				<td>${id}</td>
 				<td class='ImgName'>${name}</td>
 				<td>${size}</td>
 				<td><img width='150px' height='150px' src=${preview}></td>
-				<td><form action="ImageEdit" method="get"><input type="hidden" name="id" value=${id} /><input type="submit" value="Edit"/></form></td>
-				<td><form action="ImageDelete" method="post"><input type="hidden" name="imageId" value=${id} /><input type="submit" value="Delete" /></form></td>
+				<td><form action="ImageEdit" method="get">
+						<input type="hidden" name="id" value=${id } /><input type="submit"
+							value="Edit" />
+					</form></td>
+				<td><form action="ImageDelete" method="post">
+						<input type="hidden" name="imageId" value=${id } /><input
+							type="submit" value="Delete" />
+					</form></td>
 			</tr>
 			<%
 				}
@@ -118,5 +123,8 @@ legend {
 
 		</table>
 	</div>
+	<div>
+	<h3>
+	Total size of Images is ${total} kb.</h3></div>
 </body>
 </html>
